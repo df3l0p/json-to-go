@@ -6,7 +6,7 @@
 
 	A simple utility to translate JSON into a Go type definition.
 */
-
+var util = require('util');
 function jsonToGo(json, typename, flatten = true)
 {
 	let data;
@@ -398,21 +398,19 @@ function jsonToGo(json, typename, flatten = true)
 
 if (typeof module != 'undefined') {
     if (!module.parent) {
-        if (process.argv.length > 2 && process.argv[2] === '-big') {
-            bufs = []
-            process.stdin.on('data', function(buf) {
-                bufs.push(buf)
-            })
-            process.stdin.on('end', function() {
-                const json = Buffer.concat(bufs).toString('utf8')
-                console.log(jsonToGo(json).go)
-            })
-        } else {
-            process.stdin.on('data', function(buf) {
-                const json = buf.toString('utf8')
-                console.log(jsonToGo(json).go)
-            })
-        }
+        if (process.argv.length > 2) {
+			const json = process.argv[2].toString('utf8')
+			result = jsonToGo(json)
+			if ("error" in result && result["error"] != null) {
+				console.log(result["error"])
+			}
+			else {
+				console.log(result["go"])
+			}
+		}
+		else {
+			console.log(util.format("usage: node %s \"[minimized json]\"", process.argv[1]))
+		}
     } else {
         module.exports = jsonToGo
     }

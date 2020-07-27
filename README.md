@@ -12,6 +12,13 @@ Things to note:
 
 Contributions are welcome! Open a pull request to fix a bug, or open an issue to discuss a new feature or change.
 
+### cli shortcut
+```bash
+cat ~/bin/json-to-go
+#!/bin/bash
+
+node $HOME/git/json-to-go/json-to-go.js $@
+```
 
 ### Credits
 
